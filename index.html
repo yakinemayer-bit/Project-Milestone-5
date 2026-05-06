@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Yakine's Movie Browser - Bootstrap Bonus</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top shadow-sm">
+    <div class="container">
+      <a class="navbar-brand fw-bold" href="#top">Yakine's Movie Browser</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#movieNavbar" aria-controls="movieNavbar" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="movieNavbar">
+        <ul class="navbar-nav ms-auto align-items-lg-center gap-lg-2">
+          <li class="nav-item">
+            <button id="nav-search" class="btn btn-sm btn-danger nav-action active" type="button">Search</button>
+          </li>
+          <li class="nav-item">
+            <button id="nav-collection" class="btn btn-sm btn-outline-light nav-action" type="button">Popular Movies</button>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="#details-section">Details</a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <header id="top" class="hero-section py-5">
+    <div class="container">
+      <div class="row align-items-center g-4">
+        <div class="col-lg-8">
+          <p class="text-uppercase fw-semibold text-danger mb-2">Milestone 4 SPA enhanced with Bootstrap</p>
+          <h1 class="display-5 fw-bold mb-3">Search TMDB movies and browse popular titles in one responsive page.</h1>
+          <p class="lead text-light-emphasis mb-0">The same view with a Scleaner Bootstrap interface.</p>
+        </div>
+        <div class="col-lg-4">
+          <div class="card bg-dark-subtle border-0 hero-card">
+            <div class="card-body">
+              <h2 class="h5 fw-bold text-dark">Current Session</h2>
+              <div class="table-responsive">
+                <table class="table table-sm align-middle mb-0">
+                  <tbody id="summary-table">
+                    <tr>
+                      <th scope="row">Search</th>
+                      <td>None yet</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">View</th>
+                      <td>Grid</td>
+                    </tr>
+                    <tr>
+                      <th scope="row">Popular Page</th>
+                      <td>Not loaded</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main class="container py-4">
+    <div class="row g-4">
+      <div class="col-lg-8">
+        <div class="card app-card mb-4">
+          <div class="card-body">
+            <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3">
+              <div>
+                <h2 class="h4 mb-1">Movie Explorer</h2>
+                <p class="text-secondary mb-0">Use search or open the popular collection. Results stay separate from details.</p>
+              </div>
+              <div id="view-toggle" class="btn-group" role="group" aria-label="View toggle">
+                <button id="view-grid" type="button" class="btn btn-outline-danger active">Grid</button>
+                <button id="view-list" type="button" class="btn btn-outline-danger">List</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <ul class="nav nav-pills mb-3" role="tablist">
+          <li class="nav-item" role="presentation">
+            <button id="search-pill" class="nav-link active" type="button">Search Results</button>
+          </li>
+          <li class="nav-item" role="presentation">
+            <button id="collection-pill" class="nav-link" type="button">Popular Collection</button>
+          </li>
+        </ul>
+
+        <section id="search-section" class="card app-card">
+          <div class="card-header bg-white">
+            <h2 class="h5 mb-0">Search Movies</h2>
+          </div>
+          <div class="card-body">
+            <div id="search-form" class="row g-3 align-items-end">
+              <div class="col-md-8">
+                <label for="searchTerm" class="form-label fw-semibold">Movie title</label>
+                <input type="text" id="searchTerm" class="form-control form-control-lg" placeholder="Enter movie title" />
+              </div>
+              <div class="col-md-4 d-grid">
+                <button id="btnSearch" class="btn btn-danger btn-lg" type="button">Search</button>
+              </div>
+            </div>
+
+            <div id="search-pagination" class="pagination-wrap mt-3" style="display:none;">
+              <button class="btn btn-outline-secondary page-btn" id="search-prev" type="button">&laquo; Prev</button>
+              <span id="search-page-info" class="badge text-bg-light"></span>
+              <button class="btn btn-outline-secondary page-btn" id="search-next" type="button">Next &raquo;</button>
+            </div>
+
+            <div id="search-results" class="results-grid grid-view mt-3"></div>
+          </div>
+        </section>
+
+        <section id="collection-section" class="card app-card" style="display:none;">
+          <div class="card-header bg-white d-flex flex-column flex-sm-row justify-content-between gap-2">
+            <div>
+              <h2 class="h5 mb-0">Popular Movies</h2>
+              <p class="text-secondary small mb-0">A separate collection area that does not overwrite search results.</p>
+            </div>
+          </div>
+          <div class="card-body">
+            <div id="collection-pagination" class="pagination-wrap" style="display:none;">
+              <button class="btn btn-outline-secondary page-btn" id="collection-prev" type="button">&laquo; Prev</button>
+              <span id="collection-page-info" class="badge text-bg-light"></span>
+              <button class="btn btn-outline-secondary page-btn" id="collection-next" type="button">Next &raquo;</button>
+            </div>
+
+            <div id="collection-results" class="results-grid grid-view mt-3"></div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-lg-4">
+        <section id="details-section" class="card app-card sticky-lg-top details-panel">
+          <div class="card-header bg-white">
+            <h2 class="h5 mb-0">Movie Details</h2>
+          </div>
+          <div id="details-content" class="card-body">
+            <div class="empty-state text-center rounded p-4">
+              <p class="mb-0 text-secondary">Select a movie from search results or the popular collection to view details.</p>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+  </main>
+
+  <footer class="py-3 bg-dark text-center text-white-50">
+    <p class="mb-0">Yakine@2026</p>
+  </footer>
+
+  <!-- Mustache templates -->
+  <script id="movie-card-template" type="x-tmpl-mustache">
+    <article class="movie-card card h-100 {{viewClass}}" data-id="{{id}}">
+      {{#poster_full}}
+        <img class="card-img-top movie-poster" src="{{poster_full}}" alt="{{title}} poster" />
+      {{/poster_full}}
+      {{^poster_full}}
+        <div class="poster-placeholder">No Poster</div>
+      {{/poster_full}}
+      <div class="card-body d-flex flex-column">
+        <h3 class="h6 card-title line-clamp-2">{{title}}</h3>
+        <p class="small text-secondary mb-3">Rating: {{vote_average}}</p>
+        <button class="btn btn-sm btn-danger mt-auto" type="button">View Details</button>
+      </div>
+    </article>
+  </script>
+
+  <script id="movie-list-item-template" type="x-tmpl-mustache">
+    <article class="movie-row card {{viewClass}}" data-id="{{id}}">
+      <div class="card-body d-flex gap-3">
+        {{#poster_full}}
+          <img class="movie-poster-sm rounded" src="{{poster_full}}" alt="{{title}} poster" />
+        {{/poster_full}}
+        {{^poster_full}}
+          <div class="poster-placeholder-sm rounded">No Poster</div>
+        {{/poster_full}}
+        <div class="movie-row-info flex-grow-1">
+          <div class="d-flex flex-column flex-sm-row justify-content-between gap-2">
+            <h3 class="h5 mb-1">{{title}}</h3>
+            <span class="badge text-bg-danger align-self-start">{{vote_average}}</span>
+          </div>
+          <p class="text-secondary mb-2">{{short_overview}}</p>
+          <p class="meta mb-0"><strong>Release:</strong> {{release_date}}</p>
+        </div>
+      </div>
+    </article>
+  </script>
+
+  <script id="movie-details-template" type="x-tmpl-mustache">
+    {{#poster_full}}
+      <img class="details-poster rounded mb-3" src="{{poster_full}}" alt="{{title}} poster" />
+    {{/poster_full}}
+    <h3 class="h4 fw-bold">{{title}}</h3>
+    <div class="d-flex flex-wrap gap-2 mb-3">
+      <span class="badge text-bg-danger">Rating {{vote_average}}</span>
+      <span class="badge text-bg-secondary">{{runtime}} minutes</span>
+      <span class="badge text-bg-light">Language: {{original_language}}</span>
+    </div>
+    <p><strong>Release Date:</strong> {{release_date}}</p>
+    <p class="mb-1"><strong>Overview:</strong></p>
+    <p>{{overview}}</p>
+  </script>
+
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="https://unpkg.com/mustache@latest"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
